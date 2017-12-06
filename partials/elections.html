@@ -1,1 +1,8 @@
 <h1>Elections Page</h1>
+
+<div>
+<form name="electionForm" novalidate>
+	<label>Search for elections by location (5-digit zip code or two-letter state) <input id="election-search" type="text" class="form-control" placeholder="e.g., TN, or 37232" focus="true" name="electionSearch" ng-model="electionSearch" ng-pattern="/^(?:\w{2} \d{5})$/" maxlength="5" required></label>
+	<span class="formError" ng-show="electionForm.electionSearch.$touched && felectionForm.electionSearch.$invalid">First name is required.</span>
+</form>
+</div>
