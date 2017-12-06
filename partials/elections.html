@@ -2,7 +2,21 @@
 
 <div>
 <form name="electionForm" novalidate>
-	<label>Search for elections by location (5-digit zip code or two-letter state) <input id="election-search" type="text" class="form-control" placeholder="e.g., TN, or 37232" focus="true" name="electionSearch" ng-model="electionSearch" ng-pattern="/^(?:\w{2} \d{5})$/" maxlength="5" required></label>
-	<span class="formError" ng-show="electionForm.electionSearch.$touched && felectionForm.electionSearch.$invalid">First name is required.</span>
+	<div class="row">
+		<label>Search for elections by location by two-letter state: <select ng-model="selectedName" ng-options="x for x in states">
+</select></label>
+ <label>Search for elections by location by 5-digit zip code:<input id="election-search" type="text" class="form-control" placeholder="e.g., TN, or 37232" focus="true" name="electionSearch" ng-model="electionSearch" ng-pattern="/^(?:\d{5})$/" maxlength="5" required></label>
+	</div>
+	<span class="formError" ng-show="electionForm.electionSearch.$touched && electionForm.electionSearch.$invalid">5-digit zip required.</span>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-4 mb-3" ng-if="!flag">
+		    <button class="btn btn-default" id="searchElecBtn" ng-click="" ng-disabled="electionForm.$invalid || electionForm.$pristine">Search</Button>
+		</div>
+		<div class="col-md-2 mb-3">
+		    <button class="btn btn-danger" id="clearBtn" type="reset" ng-click="reset()">Clear Form</Button>
+		</div>
+	</div>
 </form>
+
+{{$scope.electionSearch}}
 </div>
