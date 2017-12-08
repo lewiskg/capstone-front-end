@@ -23,23 +23,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, PoopSe
 		});
 	};
 
-	const getReps = (city, state, zip) => {
-	    PoopService.searchCivicReps(city, state, zip).then((results) => {
-	    	$scope.divisions = results.data.divisions;
-	        $scope.offices = results.data.offices;
-	        $scope.officials = results.data.officials;
-	    }).catch((err) => {
-	        console.log("error in searchCivicReps", err);
-	    });
-	};
-	 
-	const parseAddress = (cityStateZip) => {
-		let city  = cityStateZip.split(',')[0];
-	  	let state = cityStateZip.split(',')[1].split(" ")[1];
-	  	let zip   = cityStateZip.split(',')[1].split(" ")[2];
-	  	return {"city": city, "state": state, "zip": zip};
-	};
-
 	const runSearch = (zipSearch) => {
 		PoopService.searchByZip(zipSearch).then((results) => {
 	    	$scope.formatedAddress = results.data.results[0].formatted_address;
@@ -50,7 +33,51 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, PoopSe
 	  	});
 	};
 
+	const parseAddress = (cityStateZip) => {
+		let city  = cityStateZip.split(',')[0];
+	  	let state = cityStateZip.split(',')[1].split(" ")[1];
+	  	let zip   = cityStateZip.split(',')[1].split(" ")[2];
+	  	return {"city": city, "state": state, "zip": zip};
+	};
 
+	const getReps = (city, state, zip) => {
+	    PoopService.searchCivicReps(city, state, zip).then((results) => {
+	    	$scope.divisions = results.data.divisions;
+	        $scope.offices = results.data.offices;
+	        $scope.officials = results.data.officials;
+	        massageData();
+	    }).catch((err) => {
+	        console.log("error in searchCivicReps", err);
+	    });
+	};
+
+	const massageData = () => {
+
+		let positionTitleArray = [];
+		$scope.offices.forEach(function(office) {
+			let numOfOfficePositions = office.officialIndices.length;
+			if(numOfOfficePositions === 1) {
+				positionTitleArray.push(office.name); 
+			}
+			else if(numOfOfficePositions > 1) {
+				let i = numOfOfficePositions;
+				while(i) {
+					positionTitleArray.push(office.name);
+					i--;
+				}
+			}
+		});
+
+		for(let i = 0; i < $scope.officials.length; i++) {
+			$scope.officials[i].officeTitle = positionTitleArray[i];
+
+			if(!$scope.officials[i].photoUrl) {
+				$scope.officials[i].photoUrl = "./images/unknown.png";
+			}
+		}
+
+
+	};
 	
 
 
