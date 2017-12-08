@@ -1,0 +1,56 @@
+{
+	"results": [{
+		"address_components": [{
+			"long_name": "37067",
+			"short_name": "37067",
+			"types": ["postal_code"]
+		}, {
+			"long_name": "Franklin",
+			"short_name": "Franklin",
+			"types": ["locality", "political"]
+		}, {
+			"long_name": "Williamson County",
+			"short_name": "Williamson County",
+			"types": ["administrative_area_level_2", "political"]
+		}, {
+			"long_name": "Tennessee",
+			"short_name": "TN",
+			"types": ["administrative_area_level_1", "political"]
+		}, {
+			"long_name": "United States",
+			"short_name": "US",
+			"types": ["country", "political"]
+		}],
+		"formatted_address": "Franklin, TN 37067, USA",
+		"geometry": {
+			"bounds": {
+				"northeast": {
+					"lat": 35.9668921,
+					"lng": -86.712204
+				},
+				"southwest": {
+					"lat": 35.8453559,
+					"lng": -86.846992
+				}
+			},
+			"location": {
+				"lat": 35.9046545,
+				"lng": -86.7718017
+			},
+			"location_type": "APPROXIMATE",
+			"viewport": {
+				"northeast": {
+					"lat": 35.9668921,
+					"lng": -86.712204
+				},
+				"southwest": {
+					"lat": 35.8453559,
+					"lng": -86.846992
+				}
+			}
+		},
+		"place_id": "ChIJA5UWolR4ZIgRhEr7yTIFheA",
+		"types": ["postal_code"]
+	}],
+	"status": "OK"
+}
