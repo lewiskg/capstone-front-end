@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("ElectionsPageCtrl", function($location, $rootScope, $scope, PoopService){
+app.controller("ElectionsPageCtrl", function($location, $rootScope, $scope, AuthService, PoopService){
 
 	$scope.reset = function() {
 		$scope.electionSearch = null;

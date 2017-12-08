@@ -6,7 +6,15 @@ div {
 	border: 1px solid black;
 }
 
+a {
+	underline: none;
+}
+
 .profile-pic {
     height: 115px;
     width: 75;
+}
+
+.profile-card {
+	min-height: 400px;
 }

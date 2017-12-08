@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("LandingPageCtrl", function($location, $rootScope, $scope, PoopService){
+app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthService, PoopService){
 
 	const initialLoad = () => {
 		PoopService.getCurrentLatLong().then((results) => {

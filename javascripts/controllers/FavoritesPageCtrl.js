@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("FavoritesPageCtrl", function($location, $rootScope, $scope, PoopService){
+app.controller("FavoritesPageCtrl", function($location, $rootScope, $scope, AuthService, PoopService){
 
 
 
