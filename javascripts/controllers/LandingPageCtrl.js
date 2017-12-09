@@ -16,16 +16,14 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 
 	const getZip = (position) => { 
 		PoopService.searchByLatLong(position).then((results) => {
-			results.data.results[0].address_components.pop();
-			let zip = results.data.results[0].address_components.pop();
-			runSearch(zip.short_name);
+			let address = parseAddress(results.data.results[0].formatted_address);
+	    	$scope.runSearch(address.zip);
 		}).catch((err) => {
 			console.log("error in getZip", err);
 		});
 	};
 
-	const runSearch = (zipSearch) => {
-		console.log("in runSearch", zipSearch);
+	$scope.runSearch = (zipSearch) => {
 		PoopService.searchByZip(zipSearch).then((results) => {
 	    	$scope.formatedAddress = results.data.results[0].formatted_address;
 	    	let address = parseAddress($scope.formatedAddress);    
@@ -39,11 +37,10 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	 	cityStateZip = cityStateZip.split(',');
 	 	cityStateZip.pop();
 	 	let stateZip = cityStateZip.pop();
-	 	stateZip = stateZip.split(" ");
+	 	stateZip  = stateZip.split(" ");
 	 	let zip   = stateZip.pop();
 	  	let state = stateZip.pop();
 	  	let city  = cityStateZip.pop();
-	  	// console.log("city, state, zip", city, state, zip);
 	  	return {"city": city, "state": state, "zip": zip};
 	};
 
@@ -78,7 +75,8 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 		// 	}
 		// });
 
-		let positionTitleArray = []; console.log($scope.offices.length); console.log($scope.officials.length);
+		let positionTitleArray = []; 
+		console.log($scope.offices.length); console.log($scope.officials.length);
 		$scope.offices.forEach(function(office) {
 			let numOfOfficePositions = office.officialIndices.length; 
 			if(numOfOfficePositions === 1) {
@@ -97,13 +95,10 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 		for(let i = 0; i < $scope.officials.length; i++) {
 			$scope.officials[i].officeTitle = positionTitleArray[i];
 			// $scope.officials[i].officeDiv = divisionArray[i];
-
 			if(!$scope.officials[i].photoUrl) {
 				$scope.officials[i].photoUrl = "./images/unknown.png";
 			}
 		}
-
-
 	};
 	
 	$scope.saveFavorite = (official) => {
@@ -123,7 +118,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 		}).catch((err) => {
 			console.log("error in removeFavorite", err);
 		});
-};
+	};
 
 
 });
