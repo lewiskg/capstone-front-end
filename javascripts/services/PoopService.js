@@ -33,6 +33,12 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 		});
 	};
 
-	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong };
+	const saveOfficial = (newOffical) => {
+		console.log("in PoopService.saveOffical: ", newOffical);
+		return $http.post(`${FIREBASE_CONFIG.databaseURL}/officals.json`, JSON.stringify(newOffical));
+	};
+
+
+	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial };
 });
 
