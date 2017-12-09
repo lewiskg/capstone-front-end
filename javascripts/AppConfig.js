@@ -66,9 +66,9 @@ app.config(function($routeProvider){
 			controller: 'FavoritesPageCtrl',
 			resolve:  {isAuth} // part of ngRouter
 		})
-	    .when("/poop/elections", {
-	      	templateUrl: 'partials/elections.html',
-	      	controller: 'ElectionsPageCtrl',
+	    .when("/poop/votingHistory", {
+	      	templateUrl: 'partials/votingHistory.html',
+	      	controller: 'votingHistoryPageCtrl',
 	      	resolve: {isAuth}
 	    })
 		.otherwise("/login"); 

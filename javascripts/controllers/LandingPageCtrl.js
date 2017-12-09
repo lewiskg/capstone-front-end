@@ -28,8 +28,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 		PoopService.searchByZip(zipSearch).then((results) => {
 	    	$scope.formatedAddress = results.data.results[0].formatted_address;
 	    	let address = parseAddress($scope.formatedAddress);    
-	    	console.log("runSearch results:", results.data);
-	    	console.log("runSearch address:", address);
 	    	getReps(address.city, address.state, address.zip);
 	  	}).catch((err) => {
 	    	console.log("error in runSearch", err);
@@ -44,7 +42,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	 	let zip   = stateZip.pop();
 	  	let state = stateZip.pop();
 	  	let city  = cityStateZip.pop();
-	  	console.log("city, state, zip", city, state, zip);
+	  	// console.log("city, state, zip", city, state, zip);
 	  	return {"city": city, "state": state, "zip": zip};
 	};
 
@@ -61,26 +59,23 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 
 	const massageData = () => { 
 
-		let divisionArray = [];
-		Object.keys($scope.divisions).forEach(key => {
-		    let div = $scope.divisions[key];
-			if(div.officeIndices.length) {
-			    let numOfDivs = div.officeIndices.length; console.log(numOfDivs);
-				if(numOfDivs === 1) {
-					divisionArray.push(div.name); 
-					console.log(div.name);
-				}
-				else if(numOfDivs > 1) {
-					let i = numOfDivs;
-					while(i) {
-						divisionArray.push(div.name);
-					console.log(div.name);
-
-						i--;
-					}
-				}
-			}
-		});
+		// let divisionArray = [];
+		// Object.keys($scope.divisions).forEach(key => {
+		//     let div = $scope.divisions[key];
+		// 	if(div.officeIndices) {
+		// 	    let numOfDivs = div.officeIndices.length;
+		// 		if(numOfDivs === 1) {
+		// 			divisionArray.push(div.name); 
+		// 		}
+		// 		else if(numOfDivs > 1) {
+		// 			let i = numOfDivs;
+		// 			while(i) {
+		// 				divisionArray.push(div.name);
+		// 				i--;
+		// 			}
+		// 		}
+		// 	}
+		// });
 
 		let positionTitleArray = []; console.log($scope.offices.length); console.log($scope.officials.length);
 		$scope.offices.forEach(function(office) {
@@ -93,13 +88,14 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 				while(j) {
 					positionTitleArray.push(office.name);
 					j--;
+					console.log("positionTitle:", office.name);
 				}
 			}
 		});
 
 		for(let i = 0; i < $scope.officials.length; i++) {
 			$scope.officials[i].officeTitle = positionTitleArray[i];
-			$scope.officials[i].officeDiv = divisionArray[i];
+			// $scope.officials[i].officeDiv = divisionArray[i];
 
 			if(!$scope.officials[i].photoUrl) {
 				$scope.officials[i].photoUrl = "./images/unknown.png";
@@ -109,24 +105,24 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 
 	};
 	
-
-
-	$scope.addToFavorites = (official) => {
-		official.favorite = !official.favorite;
-	    official.uid = $rootScope.uid;
+	$scope.saveFavorite = (official) => {
+	    official.favorite = !official.favorite;
 	    official.rating = 0;
-		PoopService.saveOffical(official).then((results) => {
-			// getMyContacts();
+	    official.uid = AuthService.getCurrentUid();
+		PoopService.saveOfficial(official).then((results) => {
+			console.log("saveFavorite", results.data.name);
 		}).catch((err) => {
-			console.log("error in addToFavorites", err);
+			console.log("error in saveFavorite", err);
 		});
 	};
 
-
-
-
-
-
+	$scope.removeFavorite = (official) => {
+	    official.favorite = !official.favorite;
+	    PoopService.removeOfficial(official).then((results) => {
+		}).catch((err) => {
+			console.log("error in removeFavorite", err);
+		});
+};
 
 
 });

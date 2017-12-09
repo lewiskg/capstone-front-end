@@ -12,4 +12,13 @@ a {
   width: 75; }
 
 .profile-card {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  padding-top: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 3px;
+  margin-left: 3px;
+  box-shadow: 3px 3px 6px -3px black;
   min-height: 400px; }
