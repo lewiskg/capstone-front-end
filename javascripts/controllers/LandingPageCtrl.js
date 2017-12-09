@@ -26,7 +26,8 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	$scope.runSearch = (zipSearch) => {
 		PoopService.searchByZip(zipSearch).then((results) => {
 	    	$scope.formatedAddress = results.data.results[0].formatted_address;
-	    	let address = parseAddress($scope.formatedAddress);    
+	    	let address = parseAddress($scope.formatedAddress);
+	    	$scope.zipSearch = "";    
 	    	getReps(address.city, address.state, address.zip);
 	  	}).catch((err) => {
 	    	console.log("error in runSearch", err);
