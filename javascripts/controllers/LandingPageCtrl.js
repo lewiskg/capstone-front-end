@@ -16,6 +16,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 
 	const getZip = (position) => { 
 		PoopService.searchByLatLong(position).then((results) => {
+			results.data.results[0].address_components.pop();
 			let zip = results.data.results[0].address_components.pop();
 			runSearch(zip.short_name);
 		}).catch((err) => {
@@ -24,7 +25,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	};
 
 	const runSearch = (zipSearch) => {
-		// zipSearch = 37232;
+		console.log("in runSearch", zipSearch);
 		PoopService.searchByZip(zipSearch).then((results) => {
 	    	$scope.formatedAddress = results.data.results[0].formatted_address;
 	    	let address = parseAddress($scope.formatedAddress);    

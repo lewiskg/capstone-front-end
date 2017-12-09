@@ -1,17 +1,16 @@
 <div>
 	<h1>Landing Page</h1>
 
-	
 	<!-- <p>{{divisions}}</p> -->
-
 </div>
 <div>
 	<form name="zipSearchForm">
-
 		<div class="row">
-			 <label>Search for elected officials by location: (5-digit zip code)&nbsp <input id="zip-search" type="text"  placeholder="e.g., 37232" focus="true" name="zipsearch"  ng-model="zipSearch" minlength="5" maxlength="5" max="99999" required></label>{{location}}
+			 <label>Search for elected officials by location: (5-digit zip code)&nbsp <input id="zip-search" type="text"  placeholder="e.g., 37232" focus="true" name="zipSearch"  ng-model="zipSearch" minlength="5" maxlength="5" max="99999" required></label>
 	<!-- 		 <span class="formError" ng-show="electionForm.electionSearch.$touched && electionForm.electionSearch.$invalid">5-digit zip required.</span> -->
-			    <button class="btn btn-default" id="searchElecBtn" ng-click="runSearch(zipSearch)" ng-disabled="electionForm.$invalid || electionForm.$pristine">Search</Button>
+			    <!-- <button class="btn btn-default" id="searchElecBtn" ng-click="runSearch(zipSearch)" ng-disabled="electionForm.$invalid || electionForm.$pristine">Search</Button> -->
+			    <button class="btn btn-default" id="searchElecBtn" ng-click="runSearch(zipSearch)">Search</Button>
+
 			    <button class="btn btn-danger" id="clearBtn" type="reset" ng-click="reset()">Clear</Button>
 		</div>
 	</form>
