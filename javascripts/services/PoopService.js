@@ -33,6 +33,50 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 		});
 	};
 
-	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong };
+	const saveOfficial = (newOfficial) => {
+		if(newOfficial.$$hashKey) {
+			delete newOfficial.$$hashKey;
+		}
+		return $http.post(`${FIREBASE_CONFIG.databaseURL}/myOfficials.json`, JSON.stringify(newOfficial));
+	};
+
+	const removeOfficial = (officialId) => {
+		return $http.delete(`${FIREBASE_CONFIG.databaseURL}/myOfficials/${officialId}.json`);
+	};
+
+	const getOfficials = (userUid) => {
+	    let officials = [];
+	    return $q((resolve, reject) => {
+	    	$http.get(`${FIREBASE_CONFIG.databaseURL}/myOfficials.json?orderBy="uid"&equalTo="${userUid}"`).then((results) => {
+	            let myOfficials = results.data;
+	            Object.keys(myOfficials).forEach((key) => {
+	                myOfficials[key].id = key; 
+	                officials.push(myOfficials[key]);
+	            });
+	            resolve(officials);
+	    	}).catch((err) => {
+	    		reject(err);
+	    	});
+	    });
+	};
+
+
+
+// var req = {
+//  method: 'POST',
+//  url: 'http://example.com',
+//  headers: {
+//    'X-API-Key': `${PROPUBLICA_CONFIG}`
+//  },
+//  data: { test: 'test' }
+// }
+
+// $http(req).then(function(){...}, function(){...});
+
+
+
+
+
+	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials };
 });
 

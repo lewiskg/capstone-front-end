@@ -14,13 +14,15 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right" ng-show="!uid">
+      <!-- <ul class="nav navbar-nav navbar-right" ng-show="!uid"> -->
+        <ul class="nav navbar-nav navbar-right" ng-show="!navbar">
         <li><a ng-href="#!/login">Login</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="uid">
+      <!-- <ul class="nav navbar-nav navbar-right" ng-show="uid"> -->
+        <ul class="nav navbar-nav navbar-right" ng-show="navbar">
         <li><a ng-href="#!/poop/landing">Home</a></li>
         <li><a ng-href="#!/poop/favorites" ng-click="setFlag()">My Favorites</a></li>
-        <li><a ng-href="#!/poop/elections">Elections</a></li>
+        <li><a ng-href="#!/poop/votingHistory">Congressional Favorities Voting History</a></li>
         <li><a ng-click="logoutUser()">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->

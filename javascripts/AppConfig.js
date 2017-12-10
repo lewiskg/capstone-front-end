@@ -17,7 +17,7 @@ app.run(function($location, $rootScope, FIREBASE_CONFIG, AuthService){
   	//currRoute is information about your current route
   	//prevRoute is information about the route you came from
   	$rootScope.$on('$routeChangeStart', function(event, currRoute, prevRoute) { // every time route changes this fires
-    	// checks to see if there is a current user
+    	// checks to see if there is a cookie with a uid for this app in localstorage
     	var logged = AuthService.isAuthenticated();
     	var appTo;
 
@@ -31,10 +31,22 @@ app.run(function($location, $rootScope, FIREBASE_CONFIG, AuthService){
       		appTo = currRoute.originalPath.indexOf('/login') !== -1;
       	}  
     	//if not on /login page AND not logged in redirect to /login
-    	if (!appTo && !logged) {
-      		event.preventDefault();
-      		$location.path('/login');
-    	}
+		if (!appTo && !logged) {
+		     //if not on /auth page AND not logged in redirect to /auth     
+		       event.preventDefault();
+		       $rootScope.navbar = false;
+		       $location.path('/login');
+		    } else if (appTo && !logged){
+		       //if on /login page AND not logged in, no redirect only authentiate in navbar
+		       $rootScope.navbar = false;
+		    } else if (appTo && logged){
+		       //if on /login page AND logged in, redirect to search page
+		       $rootScope.navbar = true;
+		       $location.path('/poop/landing');
+		    } else if (!appTo && logged){
+		       //if not on /login page AND logged in see other navbar
+		       $rootScope.navbar = true;
+		    }
   	});
 });
 
@@ -54,9 +66,9 @@ app.config(function($routeProvider){
 			controller: 'FavoritesPageCtrl',
 			resolve:  {isAuth} // part of ngRouter
 		})
-	    .when("/poop/elections", {
-	      	templateUrl: 'partials/elections.html',
-	      	controller: 'ElectionsPageCtrl',
+	    .when("/poop/votingHistory", {
+	      	templateUrl: 'partials/votingHistory.html',
+	      	controller: 'votingHistoryPageCtrl',
 	      	resolve: {isAuth}
 	    })
 		.otherwise("/login"); 

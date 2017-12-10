@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("LandingPageCtrl", function($location, $rootScope, $scope, PoopService){
+app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthService, PoopService){
 
 	const initialLoad = () => {
 		PoopService.getCurrentLatLong().then((results) => {
@@ -14,51 +14,115 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, PoopSe
 
 	initialLoad();
 
-	const getZip = (position) => {
+	const getZip = (position) => { 
 		PoopService.searchByLatLong(position).then((results) => {
-			let zip = results.data.results[0].address_components[7].short_name;
-			runSearch(zip);
+			let address = parseAddress(results.data.results[0].formatted_address);
+	    	$scope.runSearch(address.zip);
 		}).catch((err) => {
 			console.log("error in getZip", err);
 		});
 	};
 
-	const getReps = (city, state, zip) => {
-	    PoopService.searchCivicReps(city, state, zip).then((results) => {
-	    	$scope.divisions = results.data.divisions;
-	        $scope.offices = results.data.offices;
-	        $scope.officials = results.data.officials;
-	    }).catch((err) => {
-	        console.log("error in searchCivicReps", err);
-	    });
-	};
-	 
-	const parseAddress = (cityStateZip) => {
-		let city  = cityStateZip.split(',')[0];
-	  	let state = cityStateZip.split(',')[1].split(" ")[1];
-	  	let zip   = cityStateZip.split(',')[1].split(" ")[2];
-	  	return {"city": city, "state": state, "zip": zip};
-	};
-
-	const runSearch = (zipSearch) => {
+	$scope.runSearch = (zipSearch) => {
 		PoopService.searchByZip(zipSearch).then((results) => {
 	    	$scope.formatedAddress = results.data.results[0].formatted_address;
 	    	let address = parseAddress($scope.formatedAddress);
+	    	$scope.zipSearch = "";    
 	    	getReps(address.city, address.state, address.zip);
 	  	}).catch((err) => {
 	    	console.log("error in runSearch", err);
 	  	});
 	};
 
+	const parseAddress = (cityStateZip) => {
+	 	cityStateZip = cityStateZip.split(',');
+	 	cityStateZip.pop();
+	 	let stateZip = cityStateZip.pop();
+	 	stateZip  = stateZip.split(" ");
+	 	let zip   = stateZip.pop();
+	  	let state = stateZip.pop();
+	  	let city  = cityStateZip.pop();
+	  	return {"city": city, "state": state, "zip": zip};
+	};
 
+	const getReps = (city, state, zip) => {
+	    PoopService.searchCivicReps(city, state, zip).then((results) => {
+	    	$scope.divisions = results.data.divisions;
+	        $scope.offices   = results.data.offices;
+	        $scope.officials = results.data.officials;
+	        massageData();
+	    }).catch((err) => {
+	        console.log("error in searchCivicReps", err);
+	    });
+	};
+
+	const massageData = () => { 
+
+		// let divisionArray = [];
+		// Object.keys($scope.divisions).forEach(key => {
+		//     let div = $scope.divisions[key];
+		// 	if(div.officeIndices) {
+		// 	    let numOfDivs = div.officeIndices.length;
+		// 		if(numOfDivs === 1) {
+		// 			divisionArray.push(div.name); 
+		// 		}
+		// 		else if(numOfDivs > 1) {
+		// 			let i = numOfDivs;
+		// 			while(i) {
+		// 				divisionArray.push(div.name);
+		// 				i--;
+		// 			}
+		// 		}
+		// 	}
+		// });
+
+		let positionTitleArray = []; 
+		$scope.offices.forEach(function(office) {
+			let numOfOfficePositions = office.officialIndices.length; 
+			if(numOfOfficePositions === 1) {
+				positionTitleArray.push(office.name); 
+			}
+			else if(numOfOfficePositions > 1) {
+				let j = numOfOfficePositions;
+				while(j) {
+					positionTitleArray.push(office.name);
+					j--;
+				}
+			}
+		});
+
+		for(let i = 0; i < $scope.officials.length; i++) {
+			if(positionTitleArray[i].includes('United States House of Representatives')) {
+				let shorterTitle = positionTitleArray[i].replace('United States House of Representatives', 'U.S. House of Representatives');
+				$scope.officials[i].officeTitle = shorterTitle;
+			} else {
+				$scope.officials[i].officeTitle = positionTitleArray[i];
+			// $scope.officials[i].officeDiv = divisionArray[i];
+			}
+			if(!$scope.officials[i].photoUrl) {
+				$scope.officials[i].photoUrl = "./images/unknown.png";
+			}
+		}
+	};
 	
+	$scope.saveFavorite = (official) => {
+	    official.favorite = !official.favorite;
+	    official.rating = 0;
+	    official.uid = AuthService.getCurrentUid();
+		PoopService.saveOfficial(official).then((results) => {
+// console.log("saveFavorite", results.data.name);
+		}).catch((err) => {
+			console.log("error in saveFavorite", err);
+		});
+	};
 
-
-
-
-
-
-
+	$scope.removeFavorite = (official) => {
+	    official.favorite = !official.favorite;
+	    PoopService.removeOfficial(official).then((results) => {
+		}).catch((err) => {
+			console.log("error in removeFavorite", err);
+		});
+	};
 
 
 });

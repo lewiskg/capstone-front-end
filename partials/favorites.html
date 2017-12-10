@@ -1,1 +1,26 @@
 <h1>Favorites Page</h1>
+
+<div class="col-md-2 profile-card text-center" ng-repeat="official in officials">  
+	<h4 class="office-title">{{official.officeTitle}}</h4>
+	<a href="{{official.urls[0]}}">
+		<p>{{official.officeDiv}}</p>
+		<img class="profile-pic" ng-src="{{official.photoUrl}}" alt="">
+		<div class="caption">
+			<h3 class="official-name">{{official.name}}</h3>
+			<p>Party: {{official.party}}</p>
+			<p>{{official.emails[0]}}</p>
+			<p>{{official.phones[0]}}</p>
+			<ul>
+				<li>{{official.address[0].line1}}</li>
+				<li>{{official.address[0].line2}}</li>
+				<li>{{official.address[0].city}}, {{official.address[0].state}}  {{official.address[0].zip}} </li>
+			</ul>
+		</div>
+	</a>
+	<button class="btn btn-default detail" ng-click="removeMyFavorite(official)" ng-if="official.favorite"><i class="fa fa-star" aria-hidden="true"></i></button>
+	<div>
+		<button class="btn btn-default detail" ng-click="" ng-if="true"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+	</div>
+</div> 
+
+
