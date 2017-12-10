@@ -21,5 +21,4 @@ app.controller("FavoritesPageCtrl", function($location, $rootScope, $scope, Auth
 
 	};
 
-
 });
