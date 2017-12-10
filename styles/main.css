@@ -28,3 +28,7 @@ ul {
 
 .official-name {
   min-height: 52px; }
+
+.email {
+  overflow: hidden;
+  text-overflow: ellipsis; }
