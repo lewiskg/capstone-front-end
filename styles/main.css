@@ -1,11 +1,11 @@
 ul {
   list-style: none; }
 
-div {
-  border: 1px solid black; }
-
 a {
   underline: none; }
+
+ul {
+  padding: 0; }
 
 .profile-pic {
   height: 115px;
@@ -21,4 +21,10 @@ a {
   margin-right: 3px;
   margin-left: 3px;
   box-shadow: 3px 3px 6px -3px black;
-  min-height: 400px; }
+  min-height: 550px; }
+
+.office-title {
+  min-height: 60px; }
+
+.official-name {
+  min-height: 52px; }

@@ -94,8 +94,14 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 		});
 
 		for(let i = 0; i < $scope.officials.length; i++) {
-			$scope.officials[i].officeTitle = positionTitleArray[i];
+			console.log(positionTitleArray[i]);
+			if(positionTitleArray[i].includes('United States House of Representatives')) {
+				let shorterTitle = positionTitleArray[i].replace('United States House of Representatives', 'U.S. House of Representatives');
+				$scope.officials[i].officeTitle = shorterTitle;
+			} else {
+				$scope.officials[i].officeTitle = positionTitleArray[i];
 			// $scope.officials[i].officeDiv = divisionArray[i];
+			}
 			if(!$scope.officials[i].photoUrl) {
 				$scope.officials[i].photoUrl = "./images/unknown.png";
 			}
