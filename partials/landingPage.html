@@ -1,5 +1,5 @@
 <div>
-	<h1>Landing Page</h1>
+	<h1>Landing Page</h1> 
 
 	<!-- <p>{{divisions}}</p> -->
 </div>
@@ -19,17 +19,17 @@
 <div><p>Elected officials from national to the local level for: <b><em>{{formatedAddress}}</em></b></p></div>
 
 <div class="col-md-2 profile-card text-center" ng-repeat="official in officials">
-	<h4 class="office-title">{{official.officeTitle}}</h4>
+	<h4 class="profile-title">{{official.officeTitle}}</h4>
 	<a href="{{official.urls[0]}}">
 		<p>{{official.officeDiv}}</p>
 		<img class="profile-pic" ng-src="{{official.photoUrl}}" alt="">
-		<h3 class="official-name">{{official.name}}</h3>
+		<h3 class="profile-name">{{official.name}}</h3>
 	</a>
-		<div class="caption">
+		<div class="profile-caption">
 			<p>Party: {{official.party}}</p>
-			<p class="email"><a href="mailto:{{official.emails[0]}}">{{official.emails[0]}}</a></p>
+			<p class="profile-email"><a href="mailto:{{official.emails[0]}}">{{official.emails[0]}}</a></p>
 			<p>{{official.phones[0]}}</p>
-			<ul>
+			<ul class="profile-address">
 				<li>{{official.address[0].line1}}</li>
 				<li>{{official.address[0].line2}}</li>
 				<li>{{official.address[0].city}}, {{official.address[0].state}}  {{official.address[0].zip}} </li>
