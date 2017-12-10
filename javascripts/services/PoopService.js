@@ -37,19 +37,28 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 		if(newOfficial.$$hashKey) {
 			delete newOfficial.$$hashKey;
 		}
-		console.log("in PoopService.saveOfficial: ", newOfficial);
 		return $http.post(`${FIREBASE_CONFIG.databaseURL}/myOfficials.json`, JSON.stringify(newOfficial));
-		// let key = `${FIREBASE_CONFIG.databaseURL}`.child("posts").push().getKey();
-		// console.log('key', key);
-		// $http.post(`${FIREBASE_CONFIG.databaseURL}/myOfficials.json`, JSON.stringify(newOfficial));
-
 	};
 
-	const removeOfficial = (oldOfficial) => { // firebase returns null when delete is successfull
-		// console.log("in deleteContact, contactId", contactId);
-		// return $http.delete(`${FIREBASE_CONFIG.databaseURL}/contacts/${contactId}.json`);
+	const removeOfficial = (officialId) => {
+		return $http.delete(`${FIREBASE_CONFIG.databaseURL}/myOfficials/${officialId}.json`);
 	};
 
+	const getOfficials = (userUid) => {
+	    let officials = [];
+	    return $q((resolve, reject) => {
+	    	$http.get(`${FIREBASE_CONFIG.databaseURL}/myOfficials.json?orderBy="uid"&equalTo="${userUid}"`).then((results) => {
+	            let myOfficials = results.data;
+	            Object.keys(myOfficials).forEach((key) => {
+	                myOfficials[key].id = key; 
+	                officials.push(myOfficials[key]);
+	            });
+	            resolve(officials);
+	    	}).catch((err) => {
+	    		reject(err);
+	    	});
+	    });
+	};
 
 
 
@@ -68,6 +77,6 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 
 
 
-	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial };
+	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials };
 });
 

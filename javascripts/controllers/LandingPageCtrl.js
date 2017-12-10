@@ -48,7 +48,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	const getReps = (city, state, zip) => {
 	    PoopService.searchCivicReps(city, state, zip).then((results) => {
 	    	$scope.divisions = results.data.divisions;
-	        $scope.offices = results.data.offices;
+	        $scope.offices   = results.data.offices;
 	        $scope.officials = results.data.officials;
 	        massageData();
 	    }).catch((err) => {
@@ -77,7 +77,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 		// });
 
 		let positionTitleArray = []; 
-		console.log($scope.offices.length); console.log($scope.officials.length);
 		$scope.offices.forEach(function(office) {
 			let numOfOfficePositions = office.officialIndices.length; 
 			if(numOfOfficePositions === 1) {
@@ -88,13 +87,11 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 				while(j) {
 					positionTitleArray.push(office.name);
 					j--;
-					console.log("positionTitle:", office.name);
 				}
 			}
 		});
 
 		for(let i = 0; i < $scope.officials.length; i++) {
-			console.log(positionTitleArray[i]);
 			if(positionTitleArray[i].includes('United States House of Representatives')) {
 				let shorterTitle = positionTitleArray[i].replace('United States House of Representatives', 'U.S. House of Representatives');
 				$scope.officials[i].officeTitle = shorterTitle;
@@ -113,7 +110,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	    official.rating = 0;
 	    official.uid = AuthService.getCurrentUid();
 		PoopService.saveOfficial(official).then((results) => {
-			console.log("saveFavorite", results.data.name);
+// console.log("saveFavorite", results.data.name);
 		}).catch((err) => {
 			console.log("error in saveFavorite", err);
 		});
