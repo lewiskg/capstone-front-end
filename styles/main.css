@@ -7,11 +7,14 @@ a {
 ul {
   padding: 0; }
 
+.hide {
+  visibility: hidden; }
+
 .profile-pic {
   height: 115px;
   width: 75; }
 
-.profile-card {
+.profile-card, .favorites-card {
   border-style: solid;
   border-color: black;
   border-width: 1px;
@@ -23,12 +26,25 @@ ul {
   box-shadow: 3px 3px 6px -3px black;
   min-height: 550px; }
 
-.office-title {
+.favorites-card {
+  min-height: 610px; }
+
+.profile-title {
   min-height: 60px; }
 
-.official-name {
+.profile-name {
   min-height: 52px; }
 
-.email {
+.profile-caption {
+  min-height: 170px; }
+
+.profile-email {
   overflow: hidden;
-  text-overflow: ellipsis; }
+  text-overflow: ellipsis;
+  min-height: 20px; }
+
+.profile-rating {
+  margin: 2px; }
+
+.button-selected {
+  background-color: lightgreen; }
