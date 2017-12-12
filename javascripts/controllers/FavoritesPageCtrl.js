@@ -21,4 +21,26 @@ app.controller("FavoritesPageCtrl", function($location, $rootScope, $scope, Auth
 
 	};
 
+	$scope.changeRating = (official) => {
+ 		PoopService.updateRating(official).then(() => {
+ 			getMyOfficials();
+		}).catch((err) => {
+			console.log("error in updateContact", err);
+		});
+ 	};
+
+	$scope.thisBtn = function($event) {
+		($event.currentTarget).className += " button-selected";
+		$scope.thatBtn = true;
+	};
+
+	$scope.changeRating = function(official, num) {
+		official.rating = num;
+		PoopService.updateRating(official).then(() => {
+ 			getMyOfficials();
+		}).catch((err) => {
+			console.log("error in updateContact", err);
+		});
+	};
+
 });

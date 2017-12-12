@@ -17,18 +17,22 @@
 				<li>{{official.address[0].city}}, {{official.address[0].state}}  {{official.address[0].zip}} </li>
 			</ul>
 		</div>
-	</a>
 	<button class="btn btn-default detail" ng-click="removeMyFavorite(official)" ng-if="official.favorite"><i class="fa fa-star" aria-hidden="true"></i></button>
 	<br>
-	<br>
-
 	<div>
-		<button class="btn btn-default rating" ng-click="" ng-if="true"><img id="login-btn-pic" src="./images/poopFlies-1.png"></button>
-		<button class="btn btn-default rating" ng-click="" ng-if="true"><img id="login-btn-pic" src="./images/poop-1.png"></button>
-		<button class="btn btn-default rating" ng-click="" ng-if="true"><img id="login-btn-pic" src="./images/neutral-face-1.png"></button>
-		<button class="btn btn-default rating" ng-click="" ng-if="true"><img id="login-btn-pic" src="./images/thumbsup-1.png"></button>
+	    <form class="form-horizontal" role="form">
+			<div class="form-group">
+		        <label class="control-label">Rating: {{official.rating}}</label>
+		        <div>
+		            <label class="radio-inline"> <input type="checkbox"  ng-click="changeRating(official, 4)" ng-checked="official.rating == 4"><img src="./images/thumbsup-1.png"></label>
+		            <label class="radio-inline"> <input type="checkbox"  ng-click="changeRating(official, 3)" ng-checked="official.rating == 3"><img src="./images/neutral-face-1.png"></label>
+		        </div>
+		        <div>
+		            <label class="radio-inline"> <input type="checkbox"  ng-click="changeRating(official, 2)" ng-checked="official.rating == 2"><img src="./images/poop-1.png"></label>
+		            <label class="radio-inline"> <input type="checkbox"  ng-click="changeRating(official, 1)" ng-checked="official.rating == 1"><img src="./images/poopFlies-1.png"></label>
+		        </div>
+		    </div>
+		</form>
 	</div>
-	<br>
 </div> 
-
 

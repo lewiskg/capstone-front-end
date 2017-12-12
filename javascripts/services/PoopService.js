@@ -60,7 +60,12 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 	    });
 	};
 
-
+	const updateRating = (existingOfficial) => {
+		let officialId = existingOfficial.id;
+		delete existingOfficial.id;
+		delete existingOfficial.$$hashKey;
+		return $http.put(`${FIREBASE_CONFIG.databaseURL}/myOfficials/${officialId}.json`, JSON.stringify(existingOfficial));
+	};
 
 // var req = {
 //  method: 'POST',
@@ -77,6 +82,6 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 
 
 
-	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials };
+	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials, updateRating };
 });
 

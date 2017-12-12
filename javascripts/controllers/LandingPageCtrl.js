@@ -103,6 +103,31 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 				$scope.officials[i].photoUrl = "./images/unknown.png";
 			}
 		}
+
+		getMyOfficials();
+		
+	};
+
+	const getMyOfficials = () => {
+		PoopService.getOfficials(AuthService.getCurrentUid()).then((results) => {
+			let favOfficials = results;
+			compareApiDataWithFavData($scope.officials, favOfficials);
+		}).catch((err) => {
+			console.log("error in getMyOfficials", err);
+		});
+	};
+
+	const compareApiDataWithFavData = (apiData, favData) => { 
+		// Adds id, rating, and favorite property to api data so user can unfavorite an official from the landing page
+		apiData.forEach(function(individual) {
+			favData.forEach(function(fav) {
+				if(individual.name === fav.name) {
+					individual.id = fav.id;
+					individual.rating = fav.rating;
+					individual.favorite = true;
+				}
+			});
+		});
 	};
 	
 	$scope.saveFavorite = (official) => {
@@ -118,11 +143,10 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 
 	$scope.removeFavorite = (official) => {
 	    official.favorite = !official.favorite;
-	    PoopService.removeOfficial(official).then((results) => {
+	    PoopService.removeOfficial(official.id).then((results) => {
 		}).catch((err) => {
 			console.log("error in removeFavorite", err);
 		});
 	};
-
 
 });
