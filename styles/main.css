@@ -7,23 +7,21 @@ a {
 ul {
   padding: 0; }
 
-  #footer {
-    margin: 10px;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    min-height: 40px;
-    padding: 1% 0;
-}
-
-  }
-
 .hide {
   visibility: hidden; }
 
 .profile-pic {
   height: 115px;
   width: 75; }
+
+#zip-search {
+  height: 30px; }
+
+#footer {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  padding: 1%; }
 
 .profile-card, .favorites-card {
   border-style: solid;

@@ -1,8 +1,8 @@
-<h1>Favorites Page</h1>
+<h1>Favorite Officials</h1>
 
 <div class="col-md-2 favorites-card text-center" ng-repeat="official in officials">
 	<h4 class="profile-title">{{official.officeTitle}}</h4>
-	<a href="{{official.urls[0]}}">
+	<a target="_blank" href="{{official.urls[0]}}">
 		<p>{{official.officeDiv}}</p>
 		<img class="profile-pic" ng-src="{{official.photoUrl}}" alt="">
 		<h3 class="profile-name">{{official.name}}</h3>
@@ -11,7 +11,7 @@
 			<p>Party: {{official.party}}</p>
 			<p class="profile-email"><a href="mailto:{{official.emails[0]}}">{{official.emails[0]}}</a></p>
 			<p>{{official.phones[0]}}</p>
-			<a ng-href="http://maps.google.com/?q={{official.address[0].line1}} {{official.address[0].line2}} {{official.address[0].city}}, {{official.address[0].state}} {{official.address[0].zip}}">
+			<a target="_blank" ng-href="http://maps.google.com/?q={{official.address[0].line1}} {{official.address[0].line2}} {{official.address[0].city}}, {{official.address[0].state}} {{official.address[0].zip}}">
 				<ul>
 					<li>{{official.address[0].line1}}</li>
 					<li>{{official.address[0].line2}}</li>
@@ -38,4 +38,4 @@
 	</div>
 </div> 
 
-<div class="container text-center" data-ng-include="'./partials/footer.html'">
+<div class="col-md-12 text-center" data-ng-include="'./partials/footer.html'">
