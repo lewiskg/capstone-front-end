@@ -11,11 +11,13 @@
 			<p>Party: {{official.party}}</p>
 			<p class="profile-email"><a href="mailto:{{official.emails[0]}}">{{official.emails[0]}}</a></p>
 			<p>{{official.phones[0]}}</p>
-			<ul>
-				<li>{{official.address[0].line1}}</li>
-				<li>{{official.address[0].line2}}</li>
-				<li>{{official.address[0].city}}, {{official.address[0].state}}  {{official.address[0].zip}} </li>
-			</ul>
+			<a ng-href="http://maps.google.com/?q={{official.address[0].line1}} {{official.address[0].line2}} {{official.address[0].city}}, {{official.address[0].state}} {{official.address[0].zip}}">
+				<ul>
+					<li>{{official.address[0].line1}}</li>
+					<li>{{official.address[0].line2}}</li>
+					<li>{{official.address[0].city}}, {{official.address[0].state}}  {{official.address[0].zip}} </li>
+				</ul>
+			</a>
 		</div>
 	<button class="btn btn-default detail" ng-click="removeMyFavorite(official)" ng-if="official.favorite"><i class="fa fa-star" aria-hidden="true"></i></button>
 	<br>
@@ -36,3 +38,4 @@
 	</div>
 </div> 
 
+<div class="container text-center" data-ng-include="'./partials/footer.html'">
