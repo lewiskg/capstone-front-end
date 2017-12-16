@@ -68,7 +68,7 @@ app.config(function($routeProvider){
 		})
 	    .when("/poop/votingHistory", {
 	      	templateUrl: 'partials/votingHistory.html',
-	      	controller: 'votingHistoryPageCtrl',
+	      	controller: 'VotingHistoryPageCtrl',
 	      	resolve: {isAuth}
 	    })
 		.otherwise("/login"); 

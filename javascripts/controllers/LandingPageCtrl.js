@@ -5,7 +5,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	const initialLoad = () => {
 		PoopService.getCurrentLatLong().then((results) => {
 			let currentPos = results;
-	  		// $scope.latlong = {'latitude': currentPos.coords.latitude, 'longitude': currentPos.coords.longitude};
 	  		getZip(currentPos);
 		}).catch((err) => {
 			console.log("error in initialLoad - getCurrentLocation", err);
@@ -97,7 +96,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 				$scope.officials[i].officeTitle = shorterTitle;
 			} else {
 				$scope.officials[i].officeTitle = positionTitleArray[i];
-			// $scope.officials[i].officeDiv = divisionArray[i];
 			}
 			if(!$scope.officials[i].photoUrl) {
 				$scope.officials[i].photoUrl = "./images/unknown.png";
@@ -135,7 +133,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 	    official.rating = 0;
 	    official.uid = AuthService.getCurrentUid();
 		PoopService.saveOfficial(official).then((results) => {
-// console.log("saveFavorite", results.data.name);
 		}).catch((err) => {
 			console.log("error in saveFavorite", err);
 		});

@@ -1,9 +1,9 @@
-<div>
+<div class="text-center">
 	<h1>Elected Officials Search</h1> 
 
 	<!-- <p>{{divisions}}</p> -->
 </div>
-<div>
+<div class="text-center">
 	<form name="zipSearchForm">
 		<div class="row">
 			 <label>Search for elected officials by location: &nbsp <input id="zip-search" type="text"  placeholder="(5-digit zip code)" focus="true" name="zipSearch"  ng-model="zipSearch" minlength="5" maxlength="5" max="99999" required></label>
@@ -16,7 +16,7 @@
 	</form>
 </div>
 
-<div><p>Elected officials from national to the local level for: <b><em>{{formatedAddress}}</em></b></p></div>
+<div class="text-center"><p>Elected officials from national to the local level for: <b><em>{{formatedAddress}}</em></b></p></div>
 
 <div class="col-md-2 profile-card text-center" ng-repeat="official in officials">
 	<h4 class="profile-title">{{official.officeTitle}}</h4>

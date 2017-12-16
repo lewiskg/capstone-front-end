@@ -2,7 +2,7 @@
 
 /* globals app: true */
 
-const app = angular.module("PoopApp", ["ngAnimate", "ngRoute", "ngSanitize"]);
+const app = angular.module("PoopApp", ["ngAnimate", "ngRoute", "ngSanitize",  'ui.bootstrap']);
 
 app.directive('focus',
 	function($timeout) {
