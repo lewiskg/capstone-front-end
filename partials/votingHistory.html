@@ -59,54 +59,27 @@
 				<li> <b>Position:</b> &nbsp {{vote.position}} </li>
 			</ul>
 			<div> 
-				<button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get / Hide additional bill details</button>
+				<button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get / Hide Vote Details</button>
 			</div>
+			<br>
 			<ul ng-if="moreDetails">
-				<!-- <li> {{bills[$index].vote}}</li> -->
-				<li> Total Votes:
-					<ul>
-						<li><b>Yes:</b> &nbsp {{bills[$index].vote.total.yes}}</li>
-						<li><b>No:</b> &nbsp {{bills[$index].vote.total.no}}</li>
-						<li><b>Present:</b> &nbsp {{bills[$index].vote.total.present}}</li>
-						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.total.not_voting}}</li>
-					</ul>
-				</li>
-				<li> Democrat Votes:
-					<ul>
-						<li><b>Yes:</b> &nbsp {{bills[$index].vote.democratic.yes}}</li>
-						<li><b>No:</b> &nbsp {{bills[$index].vote.democratic.no}}</li>
-						<li><b>Present:</b> &nbsp {{bills[$index].vote.democratic.present}}</li>
-						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.democratic.not_voting}}</li>
-						<li><b>Majority Position:</b> &nbsp {{bills[$index].vote.democratic.majority_position}}</li>
-					</ul>
-				</li>
-				<li> Republican Votes:
-					<ul>
-						<li><b>Yes:</b> &nbsp {{bills[$index].vote.republican.yes}}</li>
-						<li><b>No:</b> &nbsp {{bills[$index].vote.republican.no}}</li>
-						<li><b>Present:</b> &nbsp {{bills[$index].vote.republican.present}}</li>
-						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.republican.not_voting}}</li>
-						<li><b>Majority Position:</b> &nbsp {{bills[$index].vote.republican.majority_position}}</li>
-					</ul>
-				</li>
-				<li> Independent Votes:
-					<ul>
-						<li><b>Yes:</b> &nbsp {{bills[$index].vote.independent.yes}}</li>
-						<li><b>No:</b> &nbsp {{bills[$index].vote.independent.no}}</li>
-						<li><b>Present:</b> &nbsp {{bills[$index].vote.independent.present}}</li>
-						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.independent.not_voting}}</li>
-						<li><b>Majority Position:</b> &nbsp {{bills[$index].vote.independent.majority_position}}</li>
-					</ul>
-				</li>
-				<li> Representative's Vote:
+				<li> Vote Summary:
 					<table>
-						<tr><th>State:</th><th>Party:</th><th>Rep:</th></tr>
-						<tr ng-repeat="rep in repsPositions">
-							<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.name}}</td>
+						<tr><th>&nbsp</th><th>Yes:</th><th>No:</th><th>Present:</th><th>Not Voting:</th></tr>
+						<tr ng-repeat="x in repVotes">
+							<td>{{x.name}}</td><td>{{x.yes}}</td><td>{{x.no}}</td><td>{{x.present}}</td><td>{{x.not_voting}}</td>
 						</tr>
 					</table>
 				</li>
-				<!-- {{bills[$index].positions}} -->
+				<li>&nbsp</li>
+				<li> Representative's Vote:
+					<table>
+						<tr><th>State:</th><th>Party:</th><th>Vote:</th><th>Rep:</th></tr>
+						<tr ng-repeat="rep in repsPositions | orderBy:'state'">
+							<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.vote_position}}</td><td>{{rep.name}}</td>
+						</tr>
+					</table>
+				</li>
 			</ul>
     </div>
   </uib-accordion>

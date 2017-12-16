@@ -35,26 +35,27 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 		});
 	};
 
-	$scope.bills = [];
-	$scope.repVotes = [];
+
 
 	$scope.billDetails = (billUri, index) => { console.log("in billDetails,", index, billUri);
 		PoopService.getBillDetails(billUri).then((results) => {
-			 // $scope.bills[index] = results.data;
-			 let additionalBillDetails = results.data;
-	
-			 additionalBillDetails = additionalBillDetails.results.votes;
+			let additionalBillDetails = results.data;
+			$scope.bills = [];
+			$scope.repVotes = [];
+			
+			additionalBillDetails = additionalBillDetails.results.votes;
+			$scope.bills[index] = additionalBillDetails;
+			$scope.repsPositions = additionalBillDetails.vote.positions;
 
-			 $scope.bills[index] = additionalBillDetails;
+			additionalBillDetails.vote.total.name = "total";
+			additionalBillDetails.vote.independent.name = "independent";
+			additionalBillDetails.vote.democratic.name = "democrat";
+			additionalBillDetails.vote.republican.name = "republican";
 
-			 $scope.repsPositions = additionalBillDetails.vote.positions;
-
-			 $scope.repVotes.push(additionalBillDetails.vote.total);
-			 $scope.repVotes.push(additionalBillDetails.vote.independent);
-			 $scope.repVotes.push(additionalBillDetails.vote.democratic);
-			 $scope.repVotes.push(additionalBillDetails.vote.republican);
-			 console.log($scope.repVotes);
-
+			$scope.repVotes.push(additionalBillDetails.vote.total);
+			$scope.repVotes.push(additionalBillDetails.vote.independent);
+			$scope.repVotes.push(additionalBillDetails.vote.democratic);
+			$scope.repVotes.push(additionalBillDetails.vote.republican);
 
 		}).catch((err) => {
 			console.log("error in getVotingHistory", err);
