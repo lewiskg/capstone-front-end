@@ -2,8 +2,22 @@
 
 app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PROPUBLICA_CONFIG, GOOGLEMAPS_CONFIG) {
 
-	const searchPropublica = (query) => {
-		return $http.get(`https://api.propublica.org/congress/v1/?api_key=${PROPUBLICA_CONFIG}`);
+	const getMemberOfCongressProPublicaId = (chamber, state) => {
+		return $http.get(`https://api.propublica.org/congress/v1/members/${chamber}/${state}/current.json`, {
+    				headers: {'X-API-Key': `${PROPUBLICA_CONFIG}`}
+				});
+	};
+
+	const getMemberOfCongressVotingHistory = (memberId) => {
+		return $http.get(`https://api.propublica.org/congress/v1/members/${memberId}/votes.json`, {
+    				headers: {'X-API-Key': `${PROPUBLICA_CONFIG}`}
+				});
+	};
+
+	const getBillDetails = (billUri) => {
+		return $http.get(`${billUri}`, {
+    				headers: {'X-API-Key': `${PROPUBLICA_CONFIG}`}
+				});
 	};
 
 	const searchCivicReps = (city, state, zipCode) => { 
@@ -67,21 +81,8 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 		return $http.put(`${FIREBASE_CONFIG.databaseURL}/myOfficials/${officialId}.json`, JSON.stringify(existingOfficial));
 	};
 
-// var req = {
-//  method: 'POST',
-//  url: 'http://example.com',
-//  headers: {
-//    'X-API-Key': `${PROPUBLICA_CONFIG}`
-//  },
-//  data: { test: 'test' }
-// }
-
-// $http(req).then(function(){...}, function(){...});
 
 
-
-
-
-	return { searchPropublica, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials, updateRating };
+	return { getMemberOfCongressProPublicaId , getMemberOfCongressVotingHistory, getBillDetails, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials, updateRating };
 });
 

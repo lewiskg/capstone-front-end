@@ -1,13 +1,70 @@
 <h1>Favorite Officials Voting History</h1>
 
 <div>
+{{data}}
 
-
-{{blahZip}}
-<h2>adfsadfa</h2>
-<br>
-{{blahReps}}
 
 </div>
 
-<!-- ng-pattern="/^(?:\d{5})$/" -->
+<div>
+	<ul ng-repeat="member in memberArray">
+		<li> {{member.id}} {{member.lastName}} </li>
+	</ul>
+</div>
+<div>
+
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-model="oneAtATime">
+      Open only one at a time
+    </label>
+  </div>
+
+<div>
+  <script type="text/ng-template" id="group-template.html">
+    <div class="panel-heading">
+      <h4 class="panel-title" style="color:#fa39c3">
+        <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+          <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
+            {{heading}}
+          </span>
+        </a>
+      </h4>
+    </div>
+    <div class="panel-collapse collapse" uib-collapse="!isOpen">
+      <div class="panel-body" style="text-align: right" ng-transclude></div>
+    </div>
+  </script>
+
+  <uib-accordion close-others="oneAtATime">
+
+    <div uib-accordion-group class="panel-default"  ng-repeat="vote in voteArray" is-open="status.value[$index]">
+    	<uib-accordion-heading>
+    		<ul>
+    			<li>{{$index + 1}}.  Bill Id: {{vote.bill.bill_id}}</li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
+    			<li>{{vote.question}} - {{vote.description}}</li>
+    			<li>Result: {{vote.result}}</li>
+    			<li>Rep's Position: {{vote.position}} </li>
+    		</ul>
+
+    		
+  		</uib-accordion-heading>
+      		<ul>
+				<li> Bill id: {{vote.bill.bill_id}}; Bill #: {{vote.bill.number}} </li>
+				<li> Title: {{vote.bill.title}}  </li>
+				<li> Description: {{vote.description}}  </li>
+				<li> Question: {{vote.question}}  </li>
+				<li> Result: {{vote.result}}  </li>
+				<li> Date: {{vote.date}} {{member.time}} </li>
+				<li> Yes: {{vote.total.yes}}, No: {{vote.total.no}}, Present: {{vote.total.present}}, Not Voting: {{vote.total.not_voting}} </li>
+				<li> Position: {{vote.position}} </li>
+				<li> Uri: {{vote.vote_uri}} </li>
+				<li> <button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get/hide bill details</li>
+				<li ng-if="moreDetails"> {{bills[$index]}}</li>
+
+			</ul>
+    </div>
+  </uib-accordion>
+</div>
+
+
