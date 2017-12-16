@@ -40,31 +40,75 @@
 
     <div uib-accordion-group class="panel-default"  ng-repeat="vote in voteArray" is-open="status.value[$index]">
     	<uib-accordion-heading>
-    		<ul>
-    			<li>{{$index + 1}}.  Bill Id: {{vote.bill.bill_id}}</li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
-    			<li>{{vote.question}} - {{vote.description}}</li>
-    			<li>Result: {{vote.result}}</li>
-    			<li>Rep's Position: {{vote.position}} </li>
+    		<ul class="accordian-list">
+    			<li>{{$index + 1}}. </li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
+    			<li>Vote Date: &nbsp {{vote.date}}</li>
+    			<li>Topic: &nbsp {{vote.question}} - {{vote.description}}</li>
+    			<li>Result: &nbsp {{vote.result}}</li>
+    			<li>Rep's Vote: &nbsp {{vote.position}} </li>
     		</ul>
-
-    		
   		</uib-accordion-heading>
-      		<ul>
-				<li> Bill id: {{vote.bill.bill_id}}; Bill #: {{vote.bill.number}} </li>
-				<li> Title: {{vote.bill.title}}  </li>
-				<li> Description: {{vote.description}}  </li>
-				<li> Question: {{vote.question}}  </li>
-				<li> Result: {{vote.result}}  </li>
-				<li> Date: {{vote.date}} {{member.time}} </li>
-				<li> Yes: {{vote.total.yes}}, No: {{vote.total.no}}, Present: {{vote.total.present}}, Not Voting: {{vote.total.not_voting}} </li>
-				<li> Position: {{vote.position}} </li>
-				<li> Uri: {{vote.vote_uri}} </li>
-				<li> <button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get/hide bill details</li>
-				<li ng-if="moreDetails"> {{bills[$index]}}</li>
-
+      		<ul class="accordian-list">
+				<li> <b>Bill id:</b> &nbsp {{vote.bill.bill_id}}; <b>Bill #:</b> &nbsp {{vote.bill.number}} </li>
+				<li ng-if="vote.bill.title"> <b>Title:</b> &nbsp {{vote.bill.title}}  </li>
+				<li> <b>Description:</b> &nbsp {{vote.description}}  </li>
+				<li> <b>Question:</b> &nbsp {{vote.question}}  </li>
+				<li> <b>Result:</b> &nbsp {{vote.result}}  </li>
+				<li> <b>Date:</b> &nbsp {{vote.date}} {{member.time}} </li>
+				<li> <b>Votes: &nbsp Yes:</b> {{vote.total.yes}}, <b>Votes No:</b> {{vote.total.no}}, <b>Present:</b> {{vote.total.present}}, <b>Not Voting:</b> {{vote.total.not_voting}} </li>
+				<li> <b>Position:</b> &nbsp {{vote.position}} </li>
+			</ul>
+			<div> 
+				<button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get / Hide additional bill details</button>
+			</div>
+			<ul ng-if="moreDetails">
+				<!-- <li> {{bills[$index].vote}}</li> -->
+				<li> Total Votes:
+					<ul>
+						<li><b>Yes:</b> &nbsp {{bills[$index].vote.total.yes}}</li>
+						<li><b>No:</b> &nbsp {{bills[$index].vote.total.no}}</li>
+						<li><b>Present:</b> &nbsp {{bills[$index].vote.total.present}}</li>
+						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.total.not_voting}}</li>
+					</ul>
+				</li>
+				<li> Democrat Votes:
+					<ul>
+						<li><b>Yes:</b> &nbsp {{bills[$index].vote.democratic.yes}}</li>
+						<li><b>No:</b> &nbsp {{bills[$index].vote.democratic.no}}</li>
+						<li><b>Present:</b> &nbsp {{bills[$index].vote.democratic.present}}</li>
+						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.democratic.not_voting}}</li>
+						<li><b>Majority Position:</b> &nbsp {{bills[$index].vote.democratic.majority_position}}</li>
+					</ul>
+				</li>
+				<li> Republican Votes:
+					<ul>
+						<li><b>Yes:</b> &nbsp {{bills[$index].vote.republican.yes}}</li>
+						<li><b>No:</b> &nbsp {{bills[$index].vote.republican.no}}</li>
+						<li><b>Present:</b> &nbsp {{bills[$index].vote.republican.present}}</li>
+						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.republican.not_voting}}</li>
+						<li><b>Majority Position:</b> &nbsp {{bills[$index].vote.republican.majority_position}}</li>
+					</ul>
+				</li>
+				<li> Independent Votes:
+					<ul>
+						<li><b>Yes:</b> &nbsp {{bills[$index].vote.independent.yes}}</li>
+						<li><b>No:</b> &nbsp {{bills[$index].vote.independent.no}}</li>
+						<li><b>Present:</b> &nbsp {{bills[$index].vote.independent.present}}</li>
+						<li><b>No Vote:</b> &nbsp {{bills[$index].vote.independent.not_voting}}</li>
+						<li><b>Majority Position:</b> &nbsp {{bills[$index].vote.independent.majority_position}}</li>
+					</ul>
+				</li>
+				<li> Representative's Vote:
+					<table>
+						<tr><th>State:</th><th>Party:</th><th>Rep:</th></tr>
+						<tr ng-repeat="rep in repsPositions">
+							<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.name}}</td>
+						</tr>
+					</table>
+				</li>
+				<!-- {{bills[$index].positions}} -->
 			</ul>
     </div>
   </uib-accordion>
 </div>
-
 
