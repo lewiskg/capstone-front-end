@@ -21,7 +21,6 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 			tempObj.id = member.id;
 			tempObj.lastName = member.last_name;
 			$scope.memberArray.push(tempObj);
-			console.log($scope.memberArray);
 		});
 		getVotingHistory($scope.memberArray[0].id);
 
@@ -31,51 +30,49 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 		PoopService.getMemberOfCongressVotingHistory(memberId).then((results) => {
 			 let temp = results.data;
 			 $scope.voteArray = temp.results[0].votes;
-			console.log($scope.voteArray);
 		}).catch((err) => {
 			console.log("error in getVotingHistory", err);
 		});
 	};
 
-	$scope.bills = [];
-	$scope.moreDetails = 0;
+
 
 	$scope.billDetails = (billUri, index) => { console.log("in billDetails,", index, billUri);
 		PoopService.getBillDetails(billUri).then((results) => {
-			 $scope.bills[index] = results.data;
-			 // $scope.tempBill = results.data;
-			 // $scope.voteArray = temp.results[0].votes;
-			// console.log($scope.tempBill);
+			let additionalBillDetails = results.data;
+			$scope.bills = [];
+			$scope.repVotes = [];
+			
+			additionalBillDetails = additionalBillDetails.results.votes;
+			$scope.bills[index] = additionalBillDetails;
+			$scope.repsPositions = additionalBillDetails.vote.positions;
+
+			additionalBillDetails.vote.total.name = "total";
+			additionalBillDetails.vote.independent.name = "independent";
+			additionalBillDetails.vote.democratic.name = "democrat";
+			additionalBillDetails.vote.republican.name = "republican";
+
+			$scope.repVotes.push(additionalBillDetails.vote.total);
+			$scope.repVotes.push(additionalBillDetails.vote.independent);
+			$scope.repVotes.push(additionalBillDetails.vote.democratic);
+			$scope.repVotes.push(additionalBillDetails.vote.republican);
+
 		}).catch((err) => {
 			console.log("error in getVotingHistory", err);
 		});
 	};
 
 
-// Accordian ui-bootstrap angular stuff
+// Accordian ui-bootstrap angular variables
+	$scope.moreDetails = 0;
 
-  $scope.oneAtATime = true;
+	$scope.oneAtATime = true;
 
-  $scope.groups = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
-
-  $scope.status = {
-    isCustomHeaderOpen: false,
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
-
-$scope.selected = {value: 0};
-
-
+  	$scope.status = {
+	    isCustomHeaderOpen: false,
+	    isFirstOpen: true,
+	    isFirstDisabled: false
+	  };
 
 });
 

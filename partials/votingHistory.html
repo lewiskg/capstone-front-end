@@ -40,31 +40,48 @@
 
     <div uib-accordion-group class="panel-default"  ng-repeat="vote in voteArray" is-open="status.value[$index]">
     	<uib-accordion-heading>
-    		<ul>
-    			<li>{{$index + 1}}.  Bill Id: {{vote.bill.bill_id}}</li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
-    			<li>{{vote.question}} - {{vote.description}}</li>
-    			<li>Result: {{vote.result}}</li>
-    			<li>Rep's Position: {{vote.position}} </li>
+    		<ul class="accordian-list">
+    			<li>{{$index + 1}}. </li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
+    			<li>Vote Date: &nbsp {{vote.date}}</li>
+    			<li>Topic: &nbsp {{vote.question}} - {{vote.description}}</li>
+    			<li>Result: &nbsp {{vote.result}}</li>
+    			<li>Rep's Vote: &nbsp {{vote.position}} </li>
     		</ul>
-
-    		
   		</uib-accordion-heading>
-      		<ul>
-				<li> Bill id: {{vote.bill.bill_id}}; Bill #: {{vote.bill.number}} </li>
-				<li> Title: {{vote.bill.title}}  </li>
-				<li> Description: {{vote.description}}  </li>
-				<li> Question: {{vote.question}}  </li>
-				<li> Result: {{vote.result}}  </li>
-				<li> Date: {{vote.date}} {{member.time}} </li>
-				<li> Yes: {{vote.total.yes}}, No: {{vote.total.no}}, Present: {{vote.total.present}}, Not Voting: {{vote.total.not_voting}} </li>
-				<li> Position: {{vote.position}} </li>
-				<li> Uri: {{vote.vote_uri}} </li>
-				<li> <button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get/hide bill details</li>
-				<li ng-if="moreDetails"> {{bills[$index]}}</li>
-
+      		<ul class="accordian-list">
+				<li> <b>Bill id:</b> &nbsp {{vote.bill.bill_id}}; <b>Bill #:</b> &nbsp {{vote.bill.number}} </li>
+				<li ng-if="vote.bill.title"> <b>Title:</b> &nbsp {{vote.bill.title}}  </li>
+				<li> <b>Description:</b> &nbsp {{vote.description}}  </li>
+				<li> <b>Question:</b> &nbsp {{vote.question}}  </li>
+				<li> <b>Result:</b> &nbsp {{vote.result}}  </li>
+				<li> <b>Date:</b> &nbsp {{vote.date}} {{member.time}} </li>
+				<li> <b>Votes: &nbsp Yes:</b> {{vote.total.yes}}, <b>Votes No:</b> {{vote.total.no}}, <b>Present:</b> {{vote.total.present}}, <b>Not Voting:</b> {{vote.total.not_voting}} </li>
+				<li> <b>Position:</b> &nbsp {{vote.position}} </li>
+			</ul>
+			<div> 
+				<button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get / Hide Vote Details</button>
+			</div>
+			<br>
+			<ul ng-if="moreDetails">
+				<li> Vote Summary:
+					<table>
+						<tr><th>&nbsp</th><th>Yes:</th><th>No:</th><th>Present:</th><th>Not Voting:</th></tr>
+						<tr ng-repeat="x in repVotes">
+							<td>{{x.name}}</td><td>{{x.yes}}</td><td>{{x.no}}</td><td>{{x.present}}</td><td>{{x.not_voting}}</td>
+						</tr>
+					</table>
+				</li>
+				<li>&nbsp</li>
+				<li> Representative's Vote:
+					<table>
+						<tr><th>State:</th><th>Party:</th><th>Vote:</th><th>Rep:</th></tr>
+						<tr ng-repeat="rep in repsPositions | orderBy:'state'">
+							<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.vote_position}}</td><td>{{rep.name}}</td>
+						</tr>
+					</table>
+				</li>
 			</ul>
     </div>
   </uib-accordion>
 </div>
-
 
