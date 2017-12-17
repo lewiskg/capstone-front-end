@@ -57,24 +57,6 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 
 	const massageData = () => { 
 
-		// let divisionArray = [];
-		// Object.keys($scope.divisions).forEach(key => {
-		//     let div = $scope.divisions[key];
-		// 	if(div.officeIndices) {
-		// 	    let numOfDivs = div.officeIndices.length;
-		// 		if(numOfDivs === 1) {
-		// 			divisionArray.push(div.name); 
-		// 		}
-		// 		else if(numOfDivs > 1) {
-		// 			let i = numOfDivs;
-		// 			while(i) {
-		// 				divisionArray.push(div.name);
-		// 				i--;
-		// 			}
-		// 		}
-		// 	}
-		// });
-
 		let positionTitleArray = []; 
 		$scope.offices.forEach(function(office) {
 			let numOfOfficePositions = office.officialIndices.length; 
@@ -101,9 +83,7 @@ app.controller("LandingPageCtrl", function($location, $rootScope, $scope, AuthSe
 				$scope.officials[i].photoUrl = "./images/unknown.png";
 			}
 		}
-
 		getMyOfficials();
-		
 	};
 
 	const getMyOfficials = () => {

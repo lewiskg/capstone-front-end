@@ -1,87 +1,121 @@
-<h1>Favorite Officials Voting History</h1>
 
-<div>
-{{data}}
-
-
+<div class="text-center">
+	<h1>State's Congressional Representative Voting History</h1>
+	<p>At this time, only the last 20 votes held from the current Congress (#115) will be returned.</p>
+	<div class="btn-group" uib-dropdown is-open="status.isopen">
+	 	<p>Select your state to get list of your State's representatives to Congress and their voting history:
+      		<button id="single-button" type="button" class="btn btn-primary btn-sm" uib-dropdown-toggle ng-disabled="disabled">Select State <span class="caret"></span></button>
+	      	<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+	        	<li ng-repeat="state in states"><span ng-model="sTate" ng-click="doThat(state)" class="text-center">{{state}}</span></li>
+	      	</ul>
+      	</p>
+    </div>
 </div>
 
-<div>
-	<ul ng-repeat="member in memberArray">
-		<li> {{member.id}} {{member.lastName}} </li>
-	</ul>
-</div>
-<div>
-
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" ng-model="oneAtATime">
-      Open only one at a time
-    </label>
-  </div>
-
-<div>
-  <script type="text/ng-template" id="group-template.html">
-    <div class="panel-heading">
-      <h4 class="panel-title" style="color:#fa39c3">
-        <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
-          <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
-            {{heading}}
-          </span>
-        </a>
-      </h4>
-    </div>
-    <div class="panel-collapse collapse" uib-collapse="!isOpen">
-      <div class="panel-body" style="text-align: right" ng-transclude></div>
-    </div>
-  </script>
-
-  <uib-accordion close-others="oneAtATime">
-
-    <div uib-accordion-group class="panel-default"  ng-repeat="vote in voteArray" is-open="status.value[$index]">
-    	<uib-accordion-heading>
-    		<ul class="accordian-list">
-    			<li>{{$index + 1}}. </li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
-    			<li>Vote Date: &nbsp {{vote.date}}</li>
-    			<li>Topic: &nbsp {{vote.question}} - {{vote.description}}</li>
-    			<li>Result: &nbsp {{vote.result}}</li>
-    			<li>Rep's Vote: &nbsp {{vote.position}} </li>
-    		</ul>
-  		</uib-accordion-heading>
-      		<ul class="accordian-list">
-				<li> <b>Bill id:</b> &nbsp {{vote.bill.bill_id}}; <b>Bill #:</b> &nbsp {{vote.bill.number}} </li>
-				<li ng-if="vote.bill.title"> <b>Title:</b> &nbsp {{vote.bill.title}}  </li>
-				<li> <b>Description:</b> &nbsp {{vote.description}}  </li>
-				<li> <b>Question:</b> &nbsp {{vote.question}}  </li>
-				<li> <b>Result:</b> &nbsp {{vote.result}}  </li>
-				<li> <b>Date:</b> &nbsp {{vote.date}} {{member.time}} </li>
-				<li> <b>Votes: &nbsp Yes:</b> {{vote.total.yes}}, <b>Votes No:</b> {{vote.total.no}}, <b>Present:</b> {{vote.total.present}}, <b>Not Voting:</b> {{vote.total.not_voting}} </li>
-				<li> <b>Position:</b> &nbsp {{vote.position}} </li>
-			</ul>
-			<div> 
-				<button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get / Hide Vote Details</button>
+<div ng-show="stateSelectedFlag">
+	<div>
+		<div id="senate" class="col-md-12 container">
+			<h2 class="text-center">Senators for the state of {{sTate}}</h2>
+			<div ng-repeat="senator in data.senate" class="col-md-4">
+				<ul>
+					<li><h4><b><u>{{senator.name}}</u></b></h4></li>
+					<li><b>Rank:</b> &nbsp {{senator.role}}</li>
+					<li><b>Seniority:</b> &nbsp {{senator.seniority}}</li>
+					<li><b>Politial Party:</b> &nbsp {{senator.party}}</li>
+					<li><b>Gender:</b> &nbsp {{senator.gender}}</li>
+					<li><b>Next Election:</b> &nbsp {{senator.next_election}}</li>
+					<li class="hide">Propublica ID: {{senator.id}}</li>
+					<li><button type="button" class="btn btn-info btn-sm" ng-click="getVotingHistory(senator)">Get Voting History</button></li>
+				</ul>
 			</div>
-			<br>
-			<ul ng-if="moreDetails">
-				<li> Vote Summary:
-					<table>
-						<tr><th>&nbsp</th><th>Yes:</th><th>No:</th><th>Present:</th><th>Not Voting:</th></tr>
-						<tr ng-repeat="x in repVotes">
-							<td>{{x.name}}</td><td>{{x.yes}}</td><td>{{x.no}}</td><td>{{x.present}}</td><td>{{x.not_voting}}</td>
-						</tr>
-					</table>
-				</li>
-				<li>&nbsp</li>
-				<li> Representative's Vote:
-					<table>
-						<tr><th>State:</th><th>Party:</th><th>Vote:</th><th>Rep:</th></tr>
-						<tr ng-repeat="rep in repsPositions | orderBy:'state'">
-							<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.vote_position}}</td><td>{{rep.name}}</td>
-						</tr>
-					</table>
-				</li>
+		</div>
+		<div class="col-md-12">
+			<h2 class="text-center">House Representative(s) for the state of {{sTate}}</h2>
+			<ul ng-repeat="rep in data.house" class="col-md-3">
+				<li><h4><b><u>{{rep.name}}</u></b></h4></li>
+				<li><b>District:</b> &nbsp {{rep.district}}</li>
+				<li><b>Seniority:</b> &nbsp {{rep.seniority}}</li>
+				<li><b>Politial Party:</b> &nbsp {{rep.party}}</li>
+				<li><b>Gender:</b> &nbsp {{rep.gender}}</li>
+				<li><b>Next Election:</b> &nbsp {{rep.next_election}}</li>
+				<li class="hide">Propublica ID: {{rep.id}}</li>
+				<li><button type="button" class="btn btn-info btn-sm" ng-click="getVotingHistory(rep)">Get Voting History</button></li>
+
 			</ul>
-    </div>
-  </uib-accordion>
+		</div>
+	</div>
+	<div ng-show="voteDataFlag">
+		<br>
+		<h2  id="voteHistory" class="text-center"><u>Vote History for {{congressRep}}</u></h2>
+
+	  	<div class="checkbox">
+	    	<label>
+	     		<input type="checkbox" ng-model="oneAtATime">
+	      		Open only one at a time
+	    	</label>
+	  	</div>
+
+		<div>
+	  		<script type="text/ng-template" id="group-template.html">
+	    		<div class="panel-heading">
+		     		<h4 class="panel-title" style="color:#fa39c3">
+		        		<a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+		          			<span uib-accordion-header ng-class="{'text-muted': isDisabled}">{{heading}}</span>
+		        		</a>
+		      		</h4>
+	    		</div>
+	    		<div class="panel-collapse collapse" uib-collapse="!isOpen">
+	      			<div class="panel-body" style="text-align: right" ng-transclude></div>
+	    		</div>
+	  		</script>
+
+	  	<uib-accordion close-others="oneAtATime">
+
+	    	<div uib-accordion-group class="panel-default"  ng-repeat="vote in voteArray" is-open="status.value[$index]">
+		    	<uib-accordion-heading>
+		    		<ul class="accordian-list">
+		    			<li>{{$index + 1}}. </li><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.value[$index], 'glyphicon-chevron-right': !status.value[$index]}"></i>
+		    			<li>Vote Date: &nbsp {{vote.date}}</li>
+		    			<li>Topic: &nbsp {{vote.question}} - {{vote.description}}</li>
+		    			<li>Result: &nbsp {{vote.result}}</li>
+		    			<li>Rep's Vote: &nbsp {{vote.position}} </li>
+		    		</ul>
+		  		</uib-accordion-heading>
+		      		<ul class="accordian-list">
+						<li> <b>Bill id:</b> &nbsp {{vote.bill.bill_id}}; <b>Bill #:</b> &nbsp {{vote.bill.number}} </li>
+						<li ng-if="vote.bill.title"> <b>Title:</b> &nbsp {{vote.bill.title}}  </li>
+						<li> <b>Description:</b> &nbsp {{vote.description}}  </li>
+						<li> <b>Question:</b> &nbsp {{vote.question}}  </li>
+						<li> <b>Result:</b> &nbsp {{vote.result}}  </li>
+						<li> <b>Date:</b> &nbsp {{vote.date}} {{member.time}} </li>
+						<li> <b>Votes: &nbsp Yes:</b> {{vote.total.yes}}, <b>Votes No:</b> {{vote.total.no}}, <b>Present:</b> {{vote.total.present}}, <b>Not Voting:</b> {{vote.total.not_voting}} </li>
+						<li> <b>Position:</b> &nbsp {{vote.position}} </li>
+					</ul>
+					<div> 
+						<button class="btn btn-primary" ng-model="moreDetails" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-click="billDetails(vote.vote_uri, $index)">Get / Hide Vote Details</button>
+					</div>
+					<br>
+					<ul ng-if="moreDetails">
+						<li> Vote Summary:
+							<table class="table">
+								<tr><th>&nbsp</th><th>Yes:</th><th>No:</th><th>Present:</th><th>Not Voting:</th></tr>
+								<tr ng-repeat="x in repVotes">
+									<td>{{x.name}}</td><td>{{x.yes}}</td><td>{{x.no}}</td><td>{{x.present}}</td><td>{{x.not_voting}}</td>
+								</tr>
+							</table>
+						</li>
+						<li>&nbsp</li>
+						<li> Representative's Vote:
+							<table class="table">
+								<tr><th>State:</th><th>Party:</th><th>Vote:</th><th>Rep:</th></tr>
+								<tr ng-repeat="rep in repsPositions | orderBy:'state'">
+									<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.vote_position}}</td><td>{{rep.name}}</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+		    </div>
+	  	</uib-accordion>
+	</div>
 </div>
 
