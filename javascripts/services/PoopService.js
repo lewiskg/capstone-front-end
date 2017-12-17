@@ -11,6 +11,7 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 	const getMemberOfCongressVotingHistory = (memberId) => {
 		return $http.get(`https://api.propublica.org/congress/v1/members/${memberId}/votes.json`, {
     				headers: {'X-API-Key': `${PROPUBLICA_CONFIG}`}
+    						
 				});
 	};
 
@@ -80,7 +81,6 @@ app.service("PoopService", function($http, $q, FIREBASE_CONFIG, CIVIC_CONFIG, PR
 		delete existingOfficial.$$hashKey;
 		return $http.put(`${FIREBASE_CONFIG.databaseURL}/myOfficials/${officialId}.json`, JSON.stringify(existingOfficial));
 	};
-
 
 
 	return { getMemberOfCongressProPublicaId , getMemberOfCongressVotingHistory, getBillDetails, searchCivicReps, searchCivicElections, searchByZip, searchByLatLong, getCurrentLatLong, saveOfficial, removeOfficial, getOfficials, updateRating };
