@@ -34,7 +34,7 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 		});
 	};
 
-	$scope.getVotingHistory = (member) => { console.log("in getVotingHistory", member.name, member.id);
+	$scope.getVotingHistory = (member) => {
 		$scope.voteDataFlag = true;
 		$scope.congressRep = member.name;
 		PoopService.getMemberOfCongressVotingHistory(member.id).then((results) => {
