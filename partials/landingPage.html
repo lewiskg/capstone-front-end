@@ -11,7 +11,10 @@
 		</div>
 	</form>
 </div>
-<div class="text-center"><p>Elected officials from national to the local level for: <b><em>{{formatedAddress}}</em></b></p></div>
+<div class="text-center">
+	<p>Elected officials from national to the local level for: <b><em>{{formatedAddress}}</em></b></p>
+	<p>Click on the star to save an official to your favorites.</p>
+</div>
 <div class="col-md-2 profile-card text-center" ng-repeat="official in officials">
 	<h4 class="profile-title">{{official.officeTitle}}</h4>
 	<a target="_blank" href="{{official.urls[0]}}">

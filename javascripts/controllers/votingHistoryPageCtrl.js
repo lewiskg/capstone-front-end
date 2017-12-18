@@ -2,7 +2,10 @@
 
 app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, $window, AuthService, PoopService){
 
-	const getRepsForState = (state) => {
+	$scope.getRepsForState = (state) => {
+		$scope.stateSelectedFlag = true;
+		$scope.voteDataFlag = false;
+		$scope.sTate = state;
 		$scope.data = {};
 		$scope.memberArray = [];
 
@@ -20,13 +23,6 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 			console.log("error in doThis", err);
 		});
 
-	};
-
-	$scope.doThat = (state) => {
-		$scope.stateSelectedFlag = true;
-		$scope.voteDataFlag = false;
-		getRepsForState(state);
-		$scope.sTate = state;
 	};
 	
 	const putIdOnMember = (ids) => {
@@ -80,6 +76,7 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 
 
 // Accordian ui-bootstrap angular variables
+// On page load constants
 	$scope.moreDetails = 0;
 
 	$scope.oneAtATime = true;
@@ -90,10 +87,12 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 	    isFirstDisabled: false
 	};
 
+// On page load constants
  	$scope.states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
-		$scope.stateSelectedFlag = false;
-		$scope.voteDataFlag = false;
+	$scope.stateSelectedFlag = false;
+	$scope.voteDataFlag = false;
+
 
 
 });
