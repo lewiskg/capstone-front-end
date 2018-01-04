@@ -3,7 +3,7 @@
 	<h1>State's Congressional Representative Voting History</h1>
 	<p>At this time, only the last 20 votes held from the current Congress (#115) will be returned.</p>
 	<div class="btn-group" uib-dropdown is-open="status.isopen">
-	 	<p>Select your state to get list of your State's representatives to Congress and their voting history:
+	 	<p>Select your state to get list of your State's representatives to Congress and their voting history: &nbsp&nbsp
       		<button id="single-button" type="button" class="btn btn-primary btn-sm" uib-dropdown-toggle ng-disabled="disabled">Select State <span class="caret"></span></button>
 	      	<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
 	        	<li ng-repeat="state in states"><span ng-click="getRepsForState(state)" class="text-center">{{state}}</span></li>
@@ -45,7 +45,7 @@
 			</ul>
 		</div>
 	</div>
-	<div ng-show="voteDataFlag">
+	<div ng-show="voteDataFlag" id="voteData">
 		<br>
 		<h2  id="voteHistory" class="text-center"><u>20 Vote History for {{congressRep}}</u></h2>
 
@@ -97,20 +97,58 @@
 					</div>
 					<br>
 					<ul ng-if="moreDetails">
-						<li> Vote Summary:
+						<li> <b>Vote Summary:</b>
 							<table class="table">
-								<tr><th>&nbsp</th><th>Yes:</th><th>No:</th><th>Present:</th><th>Not Voting:</th></tr>
+								<tr>
+									<th>&nbsp</th>
+									<th>Yes:</th>
+									<th>No:</th>
+									<th>Present:</th>
+									<th>Not Voting:</th>
+								</tr>
 								<tr ng-repeat="x in repVotes">
 									<td>{{x.name}}</td><td>{{x.yes}}</td><td>{{x.no}}</td><td>{{x.present}}</td><td>{{x.not_voting}}</td>
 								</tr>
 							</table>
 						</li>
 						<li>&nbsp</li>
-						<li> Representative's Vote:
+						<div class="input-group">
+			                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+							<input type="text" class="form-control" placeholder="Search Representative's Vote:" ng-model="searchTable">
+			            </div> 
+						<li>      
 							<table class="table">
-								<tr><th>State:</th><th>Party:</th><th>Vote:</th><th>Rep:</th></tr>
-								<tr ng-repeat="rep in repsPositions | orderBy:'state'">
-									<td>{{rep.state}}</td><td>{{rep.party}}</td><td>{{rep.vote_position}}</td><td>{{rep.name}}</td>
+								<tr>
+									<th>
+                    					<a ng-click="sortType = 'state'; sortReverse = !sortReverse"> State: 
+                      						<span ng-show="sortType == 'state' && !sortReverse" class="fa fa-caret-down"></span>
+                      						<span ng-show="sortType == 'state' && sortReverse" class="fa fa-caret-up"></span>
+                    					</a>
+                  					</th>
+									<th>
+                    					<a ng-click="sortType = 'party'; sortReverse = !sortReverse"> Party: 
+                      						<span ng-show="sortType == 'party' && !sortReverse" class="fa fa-caret-down"></span>
+                      						<span ng-show="sortType == 'party' && sortReverse" class="fa fa-caret-up"></span>
+                    					</a>
+                  					</th>
+									<th>
+                    					<a ng-click="sortType = 'vote_position'; sortReverse = !sortReverse"> Vote: 
+                      						<span ng-show="sortType == 'vote_position' && !sortReverse" class="fa fa-caret-down"></span>
+                      						<span ng-show="sortType == 'vote_position' && sortReverse" class="fa fa-caret-up"></span>
+                    					</a>
+                  					</th>
+                  					<th>
+                    					<a ng-click="sortType = 'name'; sortReverse = !sortReverse"> Rep: 
+                      						<span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                      						<span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                    					</a>
+                  					</th>
+								</tr>
+								<tr ng-repeat="rep in repsPositions | orderBy:sortType:sortReverse |  filter:searchTable">
+									<td class="voteWidth">{{rep.state}}</td>
+									<td class="voteWidth">{{rep.party}}</td>
+									<td class="voteWidth">{{rep.vote_position}}</td>
+									<td class="voteWidth">{{rep.name}}</td>
 								</tr>
 							</table>
 						</li>

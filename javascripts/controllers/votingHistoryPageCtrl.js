@@ -8,6 +8,8 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 		$scope.sTate = state;
 		$scope.data = {};
 		$scope.memberArray = [];
+		$scope.sortReverse = false;
+  		$scope.sortType = 'state';
 
 		PoopService.getMemberOfCongressProPublicaId('senate', state).then((results) => {
 			$scope.data.senate = results.data.results;
@@ -38,22 +40,22 @@ app.controller("VotingHistoryPageCtrl", function($location, $rootScope, $scope, 
 		$scope.voteDataFlag = true;
 		$scope.congressRep = member.name;
 		PoopService.getMemberOfCongressVotingHistory(member.id).then((results) => {
-			 let temp = results.data;
-			 if(!temp.results[0].votes) {
-			 	$scope.voteArray = "No recorded votes for this member in the ProPublica Database.";
-			 } else {
+			let temp = results.data;
+			if(!temp.results[0].votes) {
+				$scope.voteArray = "No recorded votes for this member in the ProPublica Database.";
+			} else {
 			 	$scope.voteArray = temp.results[0].votes;
-			 }
+			}
 		}).catch((err) => {
 			console.log("error in getVotingHistory", err);
 		});
 	};
 
-	$scope.billDetails = (billUri, index) => { console.log("in billDetails,", index, billUri);
+	$scope.billDetails = (billUri, index) => {
 		PoopService.getBillDetails(billUri).then((results) => {
-			let additionalBillDetails = results.data;
 			$scope.bills = [];
 			$scope.repVotes = [];
+			let additionalBillDetails = results.data;
 			
 			additionalBillDetails = additionalBillDetails.results.votes;
 			$scope.bills[index] = additionalBillDetails;

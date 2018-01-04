@@ -63,3 +63,6 @@ ul.accordian-list, ul.profile-address {
   float: right;
   position: relative;
   text-align: center; }
+
+.voteWidth {
+  width: 130px; }
